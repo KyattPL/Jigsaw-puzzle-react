@@ -151,7 +151,7 @@ export const JigsawPuzzle: FC<JigsawPuzzleProps> = ({
       };
       (event.target as HTMLDivElement).classList.add('jigsaw-puzzle__piece--dragging')
     }
-  }, [draggingTile])
+  }, [draggingTile, isTransition, setIsTransition])
 
   const onRootMouseMove = useCallback((event: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>) => {
     console.log(isTransition);
@@ -177,7 +177,8 @@ export const JigsawPuzzle: FC<JigsawPuzzleProps> = ({
       draggingTile.current.elem.style.setProperty('left', `${draggedToRelativeToRoot.x}px`)
       draggingTile.current.elem.style.setProperty('top', `${draggedToRelativeToRoot.y}px`)
     }
-  }, [draggingTile, rootSize, isTransition])
+  }, [draggingTile, rootSize, isTransition, setIsTransition]);
+
   const onRootMouseUp = useCallback(async (event: React.TouchEvent | React.MouseEvent) => {
     if (draggingTile.current && !isTransition) {
       if (event.type === 'touchend') {
@@ -227,7 +228,7 @@ export const JigsawPuzzle: FC<JigsawPuzzleProps> = ({
       draggingTile.current = undefined;
       await setIsTransition(false);
     }
-  }, [draggingTile, setTiles, rootSize, onSolved, isTransition])
+  }, [draggingTile, setTiles, rootSize, onSolved, isTransition, setIsTransition])
 
   return <div ref={onRootElementRendered}
               onTouchMove={onRootMouseMove}
